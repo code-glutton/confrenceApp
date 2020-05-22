@@ -1,9 +1,7 @@
 package com.osahon.firstspringbootapp.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "sessions")
 public class Session {
@@ -11,9 +9,26 @@ public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long session_id;
+
     private String session_name;
     private String session_description;
     private Integer session_length;
+
+    @ManyToMany
+    @JoinTable(
+            name="session_speakers",
+            joinColumns = @JoinColumn(name="session_id"),
+            inverseJoinColumns = @JoinColumn(name="speaker_id")
+    )
+    private List<Speaker> speakers;
+
+    public List<Speaker> getSpeakers() {
+        return speakers;
+    }
+
+    public void setSpeakers(List<Speaker> speakers) {
+        this.speakers = speakers;
+    }
 
     public Session() {
     }
